@@ -81,6 +81,11 @@ int main()
 
     Vector2f clicked;
    
+
+    vector<VertexArray> vertexArrays;
+
+    std::srand(time(0));
+
     while (window.isOpen())
     {
         
@@ -165,16 +170,16 @@ int main()
         
         bool stop = false;
         int total = 0;
+ 
         while (!stop)
         {
-            srand(time(0));
             int count = rand() % 3;
             float lastXPoint = cordsX[3];
             float lastYPoint = cordsY[3];
-            for (int index = 0; index < 3000; index++)
+            for (int index = 0; index < 5; index++)
             {
                 // Vertex array to hold points
-                VertexArray points(::Points, 3000);
+                VertexArray points(Points, 5);
             
                 // Calls funtion to get new coordinates for vector
                 float XCord = getx(MainCordsX, lastXPoint, count);
@@ -187,7 +192,6 @@ int main()
                 lastXPoint = XCord;
                 lastYPoint = YCord;
                 
-                srand(time(0));
                 count = rand() % 3;
                 
 
@@ -196,7 +200,8 @@ int main()
             
 
                 //cout << " " << lastXPoint;// << " " << cordsY[index + 3];
-                window.draw(points);
+                ///window.draw(points);
+                vertexArrays.push_back(points);
                 total++;
             
             }
@@ -204,6 +209,14 @@ int main()
             delete[] cordsX;
             delete[] cordsY;
         }
+
+        window.clear();
+
+        for(int i = 0; i < vertexArrays.size(); i++)
+        {
+            window.draw(vertexArrays.at(i));
+        }
+
         window.display();
 
     }
