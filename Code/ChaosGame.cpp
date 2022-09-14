@@ -162,23 +162,19 @@ int main()
         Vertex points4(Vector2f(cordsX[3], cordsY[3]), sf::Color::White);
         window.draw(&points4, 1, Points);
 
-        /*
-        Vertex p[10] = {Vertex(Vector2f(30, 30), Color::Red),Vertex(Vector2f(200,  500), Color::Red)};
-        p[3] = Vertex(Vector2f(300, 120), Color::Red);
-        window.draw(p, 3, ::Points);
-        */
+        
         bool stop = false;
         int total = 0;
         while (!stop)
         {
             srand(time(0));
-            int count = rand() % 2;
+            int count = rand() % 3;
             float lastXPoint = cordsX[3];
             float lastYPoint = cordsY[3];
-            for (int index = 0; index < 2000; index++)
+            for (int index = 0; index < 3000; index++)
             {
                 // Vertex array to hold points
-                VertexArray points(::Points, 2000);
+                VertexArray points(::Points, 3000);
             
                 // Calls funtion to get new coordinates for vector
                 float XCord = getx(MainCordsX, lastXPoint, count);
@@ -190,6 +186,10 @@ int main()
                 // Makes it so the last coordinate plotted is used in next get function
                 lastXPoint = XCord;
                 lastYPoint = YCord;
+                
+                srand(time(0));
+                count = rand() % 3;
+                
 
                 // Trying to add more variables to make random
                 //count++;
@@ -198,6 +198,7 @@ int main()
                 //cout << " " << lastXPoint;// << " " << cordsY[index + 3];
                 window.draw(points);
                 total++;
+            
             }
             stop = true;
             delete[] cordsX;
