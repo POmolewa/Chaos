@@ -1,11 +1,11 @@
+// Include important C++ libraries here
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <random>
-#include <time.h> 
-#include <vector>
+#include <cmath>
 
-using namespace std;
+// Make code easier to type with "using namespace"
 using namespace sf;
+using namespace std;
 
 float lastXPoint;
 float lastYPoint;
@@ -30,7 +30,7 @@ float getx(float xval[], float recentPoint, int count)
 
 float gety(float yval[], float recentPoint, int count)
 {
-    
+
 
     int temp = count;
 
@@ -48,9 +48,37 @@ float gety(float yval[], float recentPoint, int count)
 
 int main()
 {
-    RenderWindow window(VideoMode(1920, 1080), "My window");
+    // Create a video mode object
+    VideoMode vm(1920, 1080);
 
-    
+    // Create and open a window for the game
+    RenderWindow window(vm, "Sierpinski Triangle", Style::Default);
+
+    bool paused = true;
+
+    // Draw some text
+    Text messageText;
+    // We need to choose a font
+    Font font;
+    font.loadFromFile("fonts/KOMIKAP_.ttf");
+    // Set the font to our message
+    messageText.setFont(font);
+    // Assign the actual message
+    messageText.setString("Please pick three points on the screen");
+    // Make it really big
+    messageText.setCharacterSize(30);
+
+    //Choose a color
+    messageText.setFillColor(Color::White);
+
+    // Position the text
+    FloatRect textRect = messageText.getLocalBounds();
+    messageText.setOrigin(textRect.left +
+        textRect.width / 2.0f,
+        textRect.top +
+        textRect.height / 2.0f);
+    messageText.setPosition(1920 / 2.0f, 100.0f);
+
     float x1, x2, x3, x4;
     float y1, y2, y3, y4;
 
@@ -66,8 +94,13 @@ int main()
 
     while (window.isOpen())
     {
+        if (paused)
+        {
+            // Draw our message         
+            window.draw(messageText);
+        }
         window.display();
-        
+
         Event event;
         while (window.pollEvent(event))
         {
@@ -75,16 +108,19 @@ int main()
             {
                 window.close();
             }
+            
 
             if (event.type == sf::Event::MouseButtonPressed)
             {
+                paused = false;
+                
                 if (count1 < 3)
                 {
                     if (event.mouseButton.button == Mouse::Left)
                     {
                         cout << " ";
                         cout << event.mouseButton.x << endl;
-                        cout << event.mouseButton.y << endl;              
+                        cout << event.mouseButton.y << endl;
 
                         Vector2i mousePos = Mouse::getPosition(window);
                         float temp1 = mousePos.x;
@@ -95,10 +131,10 @@ int main()
                         Vertex pointf(Vector2f(mousePos.x, mousePos.y), Color::Red);
                         window.draw(&pointf, 1, Points);
                         window.display();
-                     
+
                         count1++;
                     }
-                    
+
                 }
                 if (count1 == 3)
                 {
@@ -107,12 +143,12 @@ int main()
                     x2 = cordsX[1];
                     x3 = cordsX[2];
                     x4 = cordsX[3];
-                 
+
                     y1 = cordsY[0];
                     y2 = cordsY[1];
                     y3 = cordsY[2];
                     y4 = cordsY[3];
-                   
+
 
                 }
 
@@ -122,7 +158,7 @@ int main()
 
         while (go)
         {
-            
+
             // Array that holds the main verticies
             float MainCordsX[3] = { x1, x2, x3 };
             float MainCordsY[3] = { y1, y2, y3 };
@@ -137,7 +173,7 @@ int main()
             while (!stop)
             {
                 int count = rand() % 3;
-            
+
                 for (int index = 0; index < 5; index++)
                 {
                     // Vertex array to hold points
@@ -170,14 +206,14 @@ int main()
 
                     count = rand() % 3;
 
-                 
+
                     ///window.draw(points);
                     vertexArrays.push_back(points);
                     total++;
 
                 }
                 stop = true;
-                
+
             }
 
             // These are just to test verticies - remove when needed
@@ -199,12 +235,11 @@ int main()
                 window.draw(vertexArrays.at(i));
             }
             window.display();
-         
+
         }
 
     }
     delete[] cordsX;
     delete[] cordsY;
     return 0;
-    
 }
