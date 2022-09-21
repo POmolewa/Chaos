@@ -113,6 +113,7 @@ int main()
             if (event.type == sf::Event::MouseButtonPressed)
             {
                 paused = false;
+                window.clear();
 
                 if (count1 < 4)
                 {
